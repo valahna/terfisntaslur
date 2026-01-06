@@ -6,6 +6,7 @@
     <meta name="fediverse:creator" content="@Valanha@tech.lgbt">
     <title>A Complete Deconstruction of TERFisaSlur.com</title>
     <style>
+        /* ===== CSS VARIABLES & ROOT ===== */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -15,170 +16,141 @@
             --border-color: #ddd;
             --quote-bg: #f5f5f5;
         }
+
+        /* Auto: Respect OS preference */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #ecf0f1;
+                --secondary-color: #3498db;
+                --accent-color: #e74c3c;
+                --bg-color: #1a1a1a;
+                --text-color: #ecf0f1;
+                --border-color: #444;
+                --quote-bg: #2a2a2a;
+            }
+        }
+
+        /* Force Light Mode */
+        body:has(#themeLight:checked) {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --border-color: #ddd;
+            --quote-bg: #f5f5f5;
+        }
+
+        /* Force Dark Mode */
+        body:has(#themeDark:checked) {
+            --primary-color: #ecf0f1;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #1a1a1a;
+            --text-color: #ecf0f1;
+            --border-color: #444;
+            --quote-bg: #2a2a2a;
+        }
+
         /* ===== THEME TOGGLE SLIDER ===== */
-.theme-toggle-wrapper {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1000;
-}
+        .theme-toggle-wrapper {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
 
-.theme-input {
-    display: none;
-}
+        .theme-input {
+            display: none;
+        }
 
-.theme-slider {
-    position: relative;
-    width: 120px;
-    height: 45px;
-    background-color: var(--primary-color);
-    border-radius: 25px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease;
-}
+        .theme-slider {
+            position: relative;
+            width: 120px;
+            height: 45px;
+            background-color: var(--primary-color);
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
 
-.slider-track {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    pointer-events: none;
-}
+        .slider-track {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+        }
 
-.slider-thumb {
-    position: absolute;
-    width: 38px;
-    height: 38px;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: left 0.4s ease;
-    left: 4px;
-}
+        .slider-thumb {
+            position: absolute;
+            width: 38px;
+            height: 38px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: left 0.4s ease;
+            left: 4px;
+        }
 
-/* Thumb position for Auto (default) */
-#themeAuto:checked ~ .theme-slider .slider-thumb {
-    left: 4px;
-}
+        /* Thumb position for Auto (default) */
+        #themeAuto:checked ~ .theme-slider .slider-thumb {
+            left: 4px;
+        }
 
-/* Thumb position for Light */
-#themeLight:checked ~ .theme-slider .slider-thumb {
-    left: 41px;
-}
+        /* Thumb position for Light */
+        #themeLight:checked ~ .theme-slider .slider-thumb {
+            left: 41px;
+        }
 
-/* Thumb position for Dark */
-#themeDark:checked ~ .theme-slider .slider-thumb {
-    left: 78px;
-}
+        /* Thumb position for Dark */
+        #themeDark:checked ~ .theme-slider .slider-thumb {
+            left: 78px;
+        }
 
-/* Labels */
-.theme-label {
-    position: absolute;
-    cursor: pointer;
-    user-select: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    z-index: 2;
-    transition: opacity 0.3s ease;
-    color: rgba(255, 255, 255, 0.5);
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        /* Labels */
+        .theme-label {
+            position: absolute;
+            cursor: pointer;
+            user-select: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.theme-label-auto {
-    left: 6px;
-}
+        .theme-label-auto {
+            left: 6px;
+        }
 
-.theme-label-light {
-    left: 45px;
-}
+        .theme-label-light {
+            left: 45px;
+        }
 
-.theme-label-dark {
-    right: 6px;
-}
+        .theme-label-dark {
+            right: 6px;
+        }
 
-/* Highlight active label */
-#themeAuto:checked ~ .theme-slider .theme-label-auto,
-#themeLight:checked ~ .theme-slider .theme-label-light,
-#themeDark:checked ~ .theme-slider .theme-label-dark {
-    color: rgba(0, 0, 0, 0.8);
-    font-size: 1rem;
-}
+        /* Highlight active label */
+        #themeAuto:checked ~ .theme-slider .theme-label-auto,
+        #themeLight:checked ~ .theme-slider .theme-label-light,
+        #themeDark:checked ~ .theme-slider .theme-label-dark {
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 1rem;
+        }
 
-/* ===== THEME COLORS ===== */
-
-/* Default: Light theme (visible until OS preference or user choice) */
-:root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --accent-color: #e74c3c;
-    --bg-color: #f9f9f9;
-    --text-color: #333;
-    --border-color: #ddd;
-    --quote-bg: #f5f5f5;
-}
-
-/* Auto: Respect OS preference */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: #ecf0f1;
-        --secondary-color: #3498db;
-        --accent-color: #e74c3c;
-        --bg-color: #1a1a1a;
-        --text-color: #ecf0f1;
-        --border-color: #444;
-        --quote-bg: #2a2a2a;
-    }
-}
-
-/* Force Light Mode (override OS) */
-#themeLight:checked ~ body {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --accent-color: #e74c3c;
-    --bg-color: #f9f9f9;
-    --text-color: #333;
-    --border-color: #ddd;
-    --quote-bg: #f5f5f5;
-}
-
-/* Force Dark Mode (override OS) */
-#themeDark:checked ~ body {
-    --primary-color: #ecf0f1;
-    --secondary-color: #3498db;
-    --accent-color: #e74c3c;
-    --bg-color: #1a1a1a;
-    --text-color: #ecf0f1;
-    --border-color: #444;
-    --quote-bg: #2a2a2a;
-}
-
-/* Table styling for dark mode */
-#themeDark:checked ~ body tr:nth-child(even) {
-    background-color: #2a2a2a;
-}
-
-#themeDark:checked ~ body tr:hover {
-    background-color: #3a3a3a;
-}
-
-/* Ensure body inherits theme variables */
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-
+        /* ===== GENERAL STYLES ===== */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -193,6 +165,7 @@ body {
             max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         header {
@@ -200,6 +173,7 @@ body {
             margin-bottom: 3rem;
             padding-bottom: 2rem;
             border-bottom: 3px solid var(--primary-color);
+            transition: border-bottom-color 0.3s ease;
         }
 
         h1 {
@@ -207,6 +181,7 @@ body {
             color: var(--primary-color);
             margin-bottom: 0.5rem;
             line-height: 1.3;
+            transition: color 0.3s ease;
         }
 
         .subtitle {
@@ -222,6 +197,7 @@ body {
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--secondary-color);
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
         }
 
         h3 {
@@ -229,6 +205,7 @@ body {
             color: var(--secondary-color);
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
         }
 
         h4 {
@@ -236,6 +213,7 @@ body {
             color: var(--primary-color);
             margin-top: 1.25rem;
             margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
         }
 
         p {
@@ -245,6 +223,7 @@ body {
 
         strong {
             color: var(--primary-color);
+            transition: color 0.3s ease;
         }
 
         em {
@@ -257,6 +236,7 @@ body {
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
             font-style: italic;
+            transition: background-color 0.3s ease, border-left-color 0.3s ease;
         }
 
         blockquote p {
@@ -283,6 +263,7 @@ body {
             border: 1px solid var(--border-color);
             padding: 0.75rem 1rem;
             text-align: left;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
         }
 
         th {
@@ -295,8 +276,16 @@ body {
             background-color: #f5f5f5;
         }
 
+        body:has(#themeDark:checked) tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+
         tr:hover {
             background-color: #e8f4fc;
+        }
+
+        body:has(#themeDark:checked) tr:hover {
+            background-color: #3a3a3a;
         }
 
         .cycle-container {
@@ -306,7 +295,7 @@ body {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             border-radius: 12px;
         }
-        
+
         .cycle-step {
             display: flex;
             align-items: stretch;
@@ -315,12 +304,12 @@ body {
             overflow: hidden;
             border-left: 4px solid;
         }
-        
+
         .step-oppress { border-left-color: #e74c3c; }
         .step-provoke { border-left-color: #e67e22; }
         .step-document { border-left-color: #f1c40f; }
         .step-justify { border-left-color: #9b59b6; }
-        
+
         .step-number {
             display: flex;
             align-items: center;
@@ -331,33 +320,33 @@ body {
             color: #fff;
             background: rgba(255, 255, 255, 0.1);
         }
-        
+
         .step-content {
             padding: 1rem 1.25rem;
             flex: 1;
         }
-        
+
         .step-content h4 {
             margin: 0 0 0.25rem 0;
             color: #fff;
             font-size: 1.1rem;
             letter-spacing: 0.05em;
         }
-        
+
         .step-content p {
             margin: 0;
             color: #b0b0b0;
             font-size: 0.9rem;
             text-align: left;
         }
-        
+
         .cycle-arrow {
             text-align: center;
             font-size: 1.5rem;
             color: #5dade2;
             padding: 0.5rem 0;
         }
-        
+
         .cycle-return {
             text-align: center;
             padding: 1rem;
@@ -365,7 +354,7 @@ body {
             border-radius: 8px;
             border: 1px dashed #e74c3c;
         }
-        
+
         .cycle-return p {
             margin: 0;
             color: #e74c3c;
@@ -373,13 +362,13 @@ body {
             font-size: 0.95rem;
         }
 
-
         .response-box {
             background-color: #e8f6e8;
             border: 1px solid #28a745;
             border-radius: 8px;
             padding: 1.25rem;
             margin: 1rem 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .response-box h4 {
@@ -393,6 +382,7 @@ body {
             border-radius: 8px;
             padding: 1.25rem;
             margin: 1rem 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .question-box h4 {
@@ -406,6 +396,7 @@ body {
             border-radius: 8px;
             padding: 1.25rem;
             margin: 1.5rem 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .highlight-box p {
@@ -418,6 +409,7 @@ body {
             padding: 2rem;
             border-radius: 8px;
             margin-top: 2rem;
+            transition: background-color 0.3s ease;
         }
 
         .conclusion h2 {
@@ -432,10 +424,10 @@ body {
         .conclusion ul {
             color: #ecf0f1;
         }
-        .conclusion strong {
-             color: inherit;
-         }
 
+        .conclusion strong {
+            color: inherit;
+        }
 
         .final-note {
             font-style: italic;
@@ -444,12 +436,14 @@ body {
             padding: 1.5rem;
             background-color: var(--quote-bg);
             border-radius: 8px;
+            transition: background-color 0.3s ease;
         }
 
         hr {
             border: none;
             border-top: 1px solid var(--border-color);
             margin: 2rem 0;
+            transition: border-top-color 0.3s ease;
         }
 
         .toc {
@@ -457,6 +451,11 @@ body {
             padding: 1.5rem;
             border-radius: 8px;
             margin-bottom: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        body:has(#themeDark:checked) .toc {
+            background-color: #2a2a2a;
         }
 
         .toc h3 {
@@ -482,7 +481,6 @@ body {
             text-decoration: underline;
         }
 
-        /* Citation styles */
         sup a {
             color: var(--secondary-color);
             text-decoration: none;
@@ -557,28 +555,27 @@ body {
     </style>
 </head>
 <body>
-
+    <!-- THEME TOGGLE SLIDER -->
     <div class="theme-toggle-wrapper">
-    <input type="radio" id="themeAuto" name="themeMode" class="theme-input" value="auto" checked>
-    <input type="radio" id="themeLight" name="themeMode" class="theme-input" value="light">
-    <input type="radio" id="themeDark" name="themeMode" class="theme-input" value="dark">
+        <input type="radio" id="themeAuto" name="themeMode" class="theme-input" value="auto" checked>
+        <input type="radio" id="themeLight" name="themeMode" class="theme-input" value="light">
+        <input type="radio" id="themeDark" name="themeMode" class="theme-input" value="dark">
 
-    <div class="theme-slider">
-        <div class="slider-track">
-            <div class="slider-thumb"></div>
+        <div class="theme-slider">
+            <div class="slider-track">
+                <div class="slider-thumb"></div>
+            </div>
+            <label for="themeAuto" class="theme-label theme-label-auto">
+                <span>Auto</span>
+            </label>
+            <label for="themeLight" class="theme-label theme-label-light">
+                <span>☀️</span>
+            </label>
+            <label for="themeDark" class="theme-label theme-label-dark">
+                <span>🌙</span>
+            </label>
         </div>
-        <label for="themeAuto" class="theme-label theme-label-auto">
-            <span>Auto</span>
-        </label>
-        <label for="themeLight" class="theme-label theme-label-light">
-            <span>☀️</span>
-        </label>
-        <label for="themeDark" class="theme-label theme-label-dark">
-            <span>🌙</span>
-        </label>
     </div>
-</div>
-
 
     <header>
         <h1>A Complete Deconstruction of TERFisaSlur.com</h1>
@@ -865,46 +862,46 @@ body {
             <p>The most insidious aspect of sites like TERFisaSlur.com is their role in a deliberate cycle:</p>
 
             <div class="cycle-container">
-    <div class="cycle-step step-oppress">
-        <div class="step-number">1</div>
-        <div class="step-content">
-            <h4>OPPRESS</h4>
-            <p>Legislative attacks, social exclusion, harassment</p>
-        </div>
-    </div>
-    <div class="cycle-arrow">↓</div>
+                <div class="cycle-step step-oppress">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>OPPRESS</h4>
+                        <p>Legislative attacks, social exclusion, harassment</p>
+                    </div>
+                </div>
+                <div class="cycle-arrow">↓</div>
 
-    <div class="cycle-step step-provoke">
-        <div class="step-number">2</div>
-        <div class="step-content">
-            <h4>PROVOKE</h4>
-            <p>Constant dehumanisation generates anger</p>
-        </div>
-    </div>
-    <div class="cycle-arrow">↓</div>
+                <div class="cycle-step step-provoke">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>PROVOKE</h4>
+                        <p>Constant dehumanisation generates anger</p>
+                    </div>
+                </div>
+                <div class="cycle-arrow">↓</div>
 
-    <div class="cycle-step step-document">
-        <div class="step-number">3</div>
-        <div class="step-content">
-            <h4>DOCUMENT</h4>
-            <p>Collect examples of that anger</p>
-        </div>
-    </div>
-    <div class="cycle-arrow">↓</div>
+                <div class="cycle-step step-document">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>DOCUMENT</h4>
+                        <p>Collect examples of that anger</p>
+                    </div>
+                </div>
+                <div class="cycle-arrow">↓</div>
 
-    <div class="cycle-step step-justify">
-        <div class="step-number">4</div>
-        <div class="step-content">
-            <h4>JUSTIFY</h4>
-            <p>Use the anger as "proof" oppression is warranted</p>
-        </div>
-    </div>
-    <div class="cycle-arrow">↓</div>
+                <div class="cycle-step step-justify">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>JUSTIFY</h4>
+                        <p>Use the anger as "proof" oppression is warranted</p>
+                    </div>
+                </div>
+                <div class="cycle-arrow">↓</div>
 
-    <div class="cycle-return">
-        <p>↻ Return to Step 1 with renewed justification</p>
-    </div>
-</div>
+                <div class="cycle-return">
+                    <p>↻ Return to Step 1 with renewed justification</p>
+                </div>
+            </div>
 
             <p>This is a closed loop designed to be inescapable. If trans people respond to oppression with anger, that anger is documented and used against them. If they remain silent, they are erased. <strong>There is no response the oppressed can make that will not be used against them.</strong></p>
 
@@ -980,7 +977,7 @@ body {
             </ol>
 
             <p>Recognising this pattern is essential. TERFisaSlur.com is not novel — it is the latest iteration of a centuries-old strategy to maintain existing power structures.</p>
-            <p> Interested in how TERFs and "gender critical" types are regurgitating the same playbook of oppression used throughout history? Check this out: <a href="https://wiki.valah.blog/playbook-of-oppression" target="_blank" rel="noopener"> The Playbook of Oppression </a> </p>
+            <p>Interested in how TERFs and "gender critical" types are regurgitating the same playbook of oppression used throughout history? Check this out: <a href="https://wiki.valah.blog/playbook-of-oppression" target="_blank" rel="noopener">The Playbook of Oppression</a></p>
         </section>
 
         <hr>
@@ -1138,7 +1135,7 @@ body {
                 <li>The civility trap</li>
             </ul>
 
-            <p>It exists within a historical tradition of <strong>opposition to civil rights movements</strong> -  the same tactics used against Black Americans, against gay and lesbian people, and now against trans people.</p>
+            <p>It exists within a historical tradition of <strong>opposition to civil rights movements</strong> - the same tactics used against Black Americans, against gay and lesbian people, and now against trans people.</p>
 
             <p>When someone links this site in an argument, they are not providing evidence. They are deploying a weapon. And like all weapons designed to harm marginalized people, it should be recognized for what it is and rejected.</p>
         </section>
@@ -1182,7 +1179,7 @@ body {
                     </tr>
                 </tbody>
             </table>
-         <p>Want more common arguments and myths debunked? Check out <a href="https://wiki.valah.blog/" target="_blank" rel="noopener">https://wiki.valah.blog/</a> </p>
+            <p>Want more common arguments and myths debunked? Check out <a href="https://wiki.valah.blog/" target="_blank" rel="noopener">https://wiki.valah.blog/</a></p>
         </section>
 
         <hr>
@@ -1366,7 +1363,7 @@ body {
         </section>
     </main>
 
-    <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd; color: #666;">
+    <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); color: #666; transition: border-top-color 0.3s ease;">
         <p><strong>TERFisntaslur.com</strong></p>
         <p><small>This article may be freely shared and distributed with attribution.</small></p>
     </footer>
