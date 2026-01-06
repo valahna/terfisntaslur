@@ -15,6 +15,166 @@
             --border-color: #ddd;
             --quote-bg: #f5f5f5;
         }
+        /* Theme slider styling */
+        .theme-slider-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+        .theme-input {
+            display: none;
+        }
+        
+        .theme-slider {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .slider-track {
+            position: relative;
+            width: 90px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        
+        .slider-thumb {
+            width: 32px;
+            height: 32px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            transition: left 0.3s ease;
+            left: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .theme-labels {
+            position: absolute;
+            left: 12px;
+            font-size: 0.9rem;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            pointer-events: none;
+        }
+        
+        .label-auto, .label-light, .label-dark {
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Auto (default) - follows OS */
+        #themeAuto:checked ~ .theme-slider .slider-thumb {
+            left: 4px;
+        }
+        
+        #themeAuto:checked ~ .theme-slider .label-auto {
+            opacity: 1;
+        }
+        
+        /* Light mode */
+        #themeLight:checked ~ .theme-slider .slider-thumb {
+            left: 32px;
+        }
+        
+        #themeLight:checked ~ .theme-slider .label-light {
+            opacity: 1;
+        }
+        
+        /* Dark mode */
+        #themeDark:checked ~ .theme-slider .slider-thumb {
+            left: 60px;
+        }
+        
+        #themeDark:checked ~ .theme-slider .label-dark {
+            opacity: 1;
+        }
+        
+        /* ===== THEME APPLICATION ===== */
+        
+        /* Default: Auto (follows OS preference) */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --border-color: #ddd;
+            --quote-bg: #f5f5f5;
+        }
+        
+        /* Light mode (explicit override) */
+        #themeLight:checked ~ body {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --border-color: #ddd;
+            --quote-bg: #f5f5f5;
+        }
+        
+        /* Dark mode (explicit override) */
+        #themeDark:checked ~ body {
+            --primary-color: #ecf0f1;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #1a1a1a;
+            --text-color: #ecf0f1;
+            --border-color: #444;
+            --quote-bg: #2a2a2a;
+        }
+        
+        /* OS dark mode preference (only applies when Auto is selected) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #ecf0f1;
+                --secondary-color: #3498db;
+                --accent-color: #e74c3c;
+                --bg-color: #1a1a1a;
+                --text-color: #ecf0f1;
+                --border-color: #444;
+                --quote-bg: #2a2a2a;
+            }
+        }
+        
+        /* Override OS preference when user selects Light */
+        #themeLight:checked ~ body {
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --border-color: #ddd;
+            --quote-bg: #f5f5f5;
+        }
+        
+        /* Dark table rows adjustment */
+        #themeDark:checked ~ body tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+        
+        #themeDark:checked ~ body tr:hover {
+            background-color: #3a3a3a;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body tr:nth-child(even) {
+                background-color: #2a2a2a;
+            }
+        
+            body tr:hover {
+                background-color: #3a3a3a;
+            }
+        }
+
 
         * {
             box-sizing: border-box;
@@ -137,78 +297,78 @@
         }
 
         .cycle-container {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border-radius: 12px;
-}
-
-.cycle-step {
-    display: flex;
-    align-items: stretch;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    overflow: hidden;
-    border-left: 4px solid;
-}
-
-.step-oppress { border-left-color: #e74c3c; }
-.step-provoke { border-left-color: #e67e22; }
-.step-document { border-left-color: #f1c40f; }
-.step-justify { border-left-color: #9b59b6; }
-
-.step-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.step-content {
-    padding: 1rem 1.25rem;
-    flex: 1;
-}
-
-.step-content h4 {
-    margin: 0 0 0.25rem 0;
-    color: #fff;
-    font-size: 1.1rem;
-    letter-spacing: 0.05em;
-}
-
-.step-content p {
-    margin: 0;
-    color: #b0b0b0;
-    font-size: 0.9rem;
-    text-align: left;
-}
-
-.cycle-arrow {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #5dade2;
-    padding: 0.5rem 0;
-}
-
-.cycle-return {
-    text-align: center;
-    padding: 1rem;
-    background: rgba(231, 76, 60, 0.2);
-    border-radius: 8px;
-    border: 1px dashed #e74c3c;
-}
-
-.cycle-return p {
-    margin: 0;
-    color: #e74c3c;
-    font-weight: bold;
-    font-size: 0.95rem;
-}
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 12px;
+        }
+        
+        .cycle-step {
+            display: flex;
+            align-items: stretch;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            border-left: 4px solid;
+        }
+        
+        .step-oppress { border-left-color: #e74c3c; }
+        .step-provoke { border-left-color: #e67e22; }
+        .step-document { border-left-color: #f1c40f; }
+        .step-justify { border-left-color: #9b59b6; }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-content {
+            padding: 1rem 1.25rem;
+            flex: 1;
+        }
+        
+        .step-content h4 {
+            margin: 0 0 0.25rem 0;
+            color: #fff;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .step-content p {
+            margin: 0;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+        
+        .cycle-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #5dade2;
+            padding: 0.5rem 0;
+        }
+        
+        .cycle-return {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(231, 76, 60, 0.2);
+            border-radius: 8px;
+            border: 1px dashed #e74c3c;
+        }
+        
+        .cycle-return p {
+            margin: 0;
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
 
 
         .response-box {
@@ -394,6 +554,22 @@
     </style>
 </head>
 <body>
+    <div class="theme-slider-container">
+    <input type="radio" id="themeAuto" name="themeMode" class="theme-input" value="auto" checked>
+    <input type="radio" id="themeLight" name="themeMode" class="theme-input" value="light">
+    <input type="radio" id="themeDark" name="themeMode" class="theme-input" value="dark">
+    <label for="themeAuto" class="theme-slider">
+        <span class="slider-track">
+            <span class="slider-thumb"></span>
+        </span>
+        <span class="theme-labels">
+            <span class="label-auto">Auto</span>
+            <span class="label-light">☀️</span>
+            <span class="label-dark">🌙</span>
+        </span>
+    </label>
+    </div>
+
     <header>
         <h1>A Complete Deconstruction of TERFisaSlur.com</h1>
         <p class="subtitle" style="text-align: center;">Weaponised Victimhood and the Anatomy of a Propaganda Tool</p>
