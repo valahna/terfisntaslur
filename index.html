@@ -15,165 +15,168 @@
             --border-color: #ddd;
             --quote-bg: #f5f5f5;
         }
-        /* Theme slider styling */
-        .theme-slider-container {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1000;
-        }
+        /* ===== THEME TOGGLE SLIDER ===== */
+.theme-toggle-wrapper {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+}
 
-        .theme-input {
-            display: none;
-        }
-        
-        .theme-slider {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        .slider-track {
-            position: relative;
-            width: 90px;
-            height: 40px;
-            background-color: var(--primary-color);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            padding: 0 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
-        }
-        
-        .slider-thumb {
-            width: 32px;
-            height: 32px;
-            background-color: white;
-            border-radius: 50%;
-            position: absolute;
-            transition: left 0.3s ease;
-            left: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .theme-labels {
-            position: absolute;
-            left: 12px;
-            font-size: 0.9rem;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            pointer-events: none;
-        }
-        
-        .label-auto, .label-light, .label-dark {
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
-        
-        /* Auto (default) - follows OS */
-        #themeAuto:checked ~ .theme-slider .slider-thumb {
-            left: 4px;
-        }
-        
-        #themeAuto:checked ~ .theme-slider .label-auto {
-            opacity: 1;
-        }
-        
-        /* Light mode */
-        #themeLight:checked ~ .theme-slider .slider-thumb {
-            left: 32px;
-        }
-        
-        #themeLight:checked ~ .theme-slider .label-light {
-            opacity: 1;
-        }
-        
-        /* Dark mode */
-        #themeDark:checked ~ .theme-slider .slider-thumb {
-            left: 60px;
-        }
-        
-        #themeDark:checked ~ .theme-slider .label-dark {
-            opacity: 1;
-        }
-        
-        /* ===== THEME APPLICATION ===== */
-        
-        /* Default: Auto (follows OS preference) */
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --bg-color: #f9f9f9;
-            --text-color: #333;
-            --border-color: #ddd;
-            --quote-bg: #f5f5f5;
-        }
-        
-        /* Light mode (explicit override) */
-        #themeLight:checked ~ body {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --bg-color: #f9f9f9;
-            --text-color: #333;
-            --border-color: #ddd;
-            --quote-bg: #f5f5f5;
-        }
-        
-        /* Dark mode (explicit override) */
-        #themeDark:checked ~ body {
-            --primary-color: #ecf0f1;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --bg-color: #1a1a1a;
-            --text-color: #ecf0f1;
-            --border-color: #444;
-            --quote-bg: #2a2a2a;
-        }
-        
-        /* OS dark mode preference (only applies when Auto is selected) */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --primary-color: #ecf0f1;
-                --secondary-color: #3498db;
-                --accent-color: #e74c3c;
-                --bg-color: #1a1a1a;
-                --text-color: #ecf0f1;
-                --border-color: #444;
-                --quote-bg: #2a2a2a;
-            }
-        }
-        
-        /* Override OS preference when user selects Light */
-        #themeLight:checked ~ body {
-            --bg-color: #f9f9f9;
-            --text-color: #333;
-            --border-color: #ddd;
-            --quote-bg: #f5f5f5;
-        }
-        
-        /* Dark table rows adjustment */
-        #themeDark:checked ~ body tr:nth-child(even) {
-            background-color: #2a2a2a;
-        }
-        
-        #themeDark:checked ~ body tr:hover {
-            background-color: #3a3a3a;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            body tr:nth-child(even) {
-                background-color: #2a2a2a;
-            }
-        
-            body tr:hover {
-                background-color: #3a3a3a;
-            }
-        }
+.theme-input {
+    display: none;
+}
+
+.theme-slider {
+    position: relative;
+    width: 120px;
+    height: 45px;
+    background-color: var(--primary-color);
+    border-radius: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.slider-track {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.slider-thumb {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: left 0.4s ease;
+    left: 4px;
+}
+
+/* Thumb position for Auto (default) */
+#themeAuto:checked ~ .theme-slider .slider-thumb {
+    left: 4px;
+}
+
+/* Thumb position for Light */
+#themeLight:checked ~ .theme-slider .slider-thumb {
+    left: 41px;
+}
+
+/* Thumb position for Dark */
+#themeDark:checked ~ .theme-slider .slider-thumb {
+    left: 78px;
+}
+
+/* Labels */
+.theme-label {
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+    color: rgba(255, 255, 255, 0.5);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-label-auto {
+    left: 6px;
+}
+
+.theme-label-light {
+    left: 45px;
+}
+
+.theme-label-dark {
+    right: 6px;
+}
+
+/* Highlight active label */
+#themeAuto:checked ~ .theme-slider .theme-label-auto,
+#themeLight:checked ~ .theme-slider .theme-label-light,
+#themeDark:checked ~ .theme-slider .theme-label-dark {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 1rem;
+}
+
+/* ===== THEME COLORS ===== */
+
+/* Default: Light theme (visible until OS preference or user choice) */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --bg-color: #f9f9f9;
+    --text-color: #333;
+    --border-color: #ddd;
+    --quote-bg: #f5f5f5;
+}
+
+/* Auto: Respect OS preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #ecf0f1;
+        --secondary-color: #3498db;
+        --accent-color: #e74c3c;
+        --bg-color: #1a1a1a;
+        --text-color: #ecf0f1;
+        --border-color: #444;
+        --quote-bg: #2a2a2a;
+    }
+}
+
+/* Force Light Mode (override OS) */
+#themeLight:checked ~ body {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --bg-color: #f9f9f9;
+    --text-color: #333;
+    --border-color: #ddd;
+    --quote-bg: #f5f5f5;
+}
+
+/* Force Dark Mode (override OS) */
+#themeDark:checked ~ body {
+    --primary-color: #ecf0f1;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --bg-color: #1a1a1a;
+    --text-color: #ecf0f1;
+    --border-color: #444;
+    --quote-bg: #2a2a2a;
+}
+
+/* Table styling for dark mode */
+#themeDark:checked ~ body tr:nth-child(even) {
+    background-color: #2a2a2a;
+}
+
+#themeDark:checked ~ body tr:hover {
+    background-color: #3a3a3a;
+}
+
+/* Ensure body inherits theme variables */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 
 
         * {
@@ -554,21 +557,28 @@
     </style>
 </head>
 <body>
-    <div class="theme-slider-container">
+
+    <div class="theme-toggle-wrapper">
     <input type="radio" id="themeAuto" name="themeMode" class="theme-input" value="auto" checked>
     <input type="radio" id="themeLight" name="themeMode" class="theme-input" value="light">
     <input type="radio" id="themeDark" name="themeMode" class="theme-input" value="dark">
-    <label for="themeAuto" class="theme-slider">
-        <span class="slider-track">
-            <span class="slider-thumb"></span>
-        </span>
-        <span class="theme-labels">
-            <span class="label-auto">Auto</span>
-            <span class="label-light">☀️</span>
-            <span class="label-dark">🌙</span>
-        </span>
-    </label>
+
+    <div class="theme-slider">
+        <div class="slider-track">
+            <div class="slider-thumb"></div>
+        </div>
+        <label for="themeAuto" class="theme-label theme-label-auto">
+            <span>Auto</span>
+        </label>
+        <label for="themeLight" class="theme-label theme-label-light">
+            <span>☀️</span>
+        </label>
+        <label for="themeDark" class="theme-label theme-label-dark">
+            <span>🌙</span>
+        </label>
     </div>
+</div>
+
 
     <header>
         <h1>A Complete Deconstruction of TERFisaSlur.com</h1>
